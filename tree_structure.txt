@@ -1,0 +1,29 @@
+forge/
+├── .agents/                          # Agentes y skills del pipeline
+│   └── skills/
+│       ├── pipeline/                 # Skills del flujo SDD (propose, specify, design, …)
+│       ├── shared/                   # Skills compartidos entre Claude y Gemini
+│       └── utility/                  # Skills de soporte y automatización
+├── .engine/                          # Motor del pipeline — artefactos de cambios
+│   ├── changes/                      # Changesets activos del pipeline
+│   │   └── archive/                  # Changesets completados y archivados
+│   ├── ideas/                        # Borradores de propuestas (pre-pipeline)
+│   ├── schemas/                      # Esquemas YAML de validación de artefactos
+│   └── specs/                        # Specs acumuladas del proyecto
+├── docs/                             # Documentación técnica del pipeline
+│   ├── AGENTS.md                     # Instrucciones para agentes IA
+│   ├── architecture.md               # Visión general de la arquitectura
+│   ├── commands.md                   # Referencia de comandos slash
+│   ├── pipeline.md                   # Descripción detallada del flujo SDD
+│   └── stack.md                      # Descripción del stack tecnológico
+├── src/
+│   └── forge/                        # Código fuente (privado — no incluido en showcase)
+├── tests/                            # Tests de validación (privado — no incluido en showcase)
+├── AGENTS.md                         # Instrucciones globales para agentes
+├── CHANGELOG.md                      # Historial de cambios del proyecto
+├── CLAUDE.md                         # Instrucciones específicas para Claude Code
+├── dprint.json                       # Configuración de formateo (Markdown)
+├── llms.txt                          # IDs de librerías para Context7 MCP
+├── mise.toml                         # Orquestador de tareas y herramientas
+├── pyproject.toml                    # Dependencias Python y configuración de herramientas
+└── README.md                         # Documentación principal del proyecto

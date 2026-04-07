@@ -1,0 +1,47 @@
+# Sanitized reference — sección de variables privadas y carga de .env eliminadas
+# Versión de referencia para el repositorio de exhibición forge-showcase
+
+[tools]
+python = "3.14"
+uv = "latest"
+ruff = "latest"
+dprint = "latest"
+
+[tasks.default]
+run = "mise tasks"
+description = "Lista las tareas disponibles"
+
+[tasks.install]
+run = "uv sync --all-groups"
+description = "Instala todas las dependencias del proyecto"
+
+[tasks.lint]
+run = [
+    "ruff check src tests",
+    "deptry src",
+    "vulture src",
+]
+description = "Ejecuta linters: ruff, deptry, vulture"
+
+[tasks.format]
+run = [
+    "ruff format src tests",
+    "dprint fmt",
+]
+description = "Formatea código Python y Markdown"
+
+[tasks.test]
+run = "uv run pytest"
+description = "Ejecuta la suite de tests con pytest"
+
+[tasks.security]
+run = "bandit -r src -ll"
+description = "Auditoría de seguridad con bandit"
+
+[tasks.typecheck]
+run = "ty check src"
+description = "Verificación de tipos estáticos con ty"
+
+[tasks.check]
+depends = ["lint", "test", "security", "typecheck"]
+description = "Ejecuta lint, test, security y typecheck en secuencia"
