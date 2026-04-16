@@ -22,19 +22,29 @@ El sistema busca estructurar la evolución de proyectos personales mediante un f
 
 ## Spec-Driven Development (SDD)
 
-Forge implementa un ciclo de vida donde cada cambio pasa por artefactos formales antes de llegar al código.
+Forge implementa un ciclo de vida riguroso donde cada cambio se mueve a través de estas fases:
+
+1. **Proponer**
+2. **Especificar**
+3. **Aprobar**
+4. **Diseñar**
+5. **Generar tareas atómicas**
+6. **Implementar**
+7. **Verificar**
+8. **Archivar**
 
 ```mermaid
 stateDiagram-v2
-    [*] --> draft : /propose
-    draft --> proposed : /approve
-    proposed --> approved : confirmación
-    approved --> implemented : /apply
-    implemented --> archived : /verify + /archive
-    archived --> [*]
+    [*] --> Proponer
+    Proponer --> Especificar
+    Especificar --> Aprobar
+    Aprobar --> Diseñar
+    Diseñar --> GenerarTareas : Tareas atómicas
+    GenerarTareas --> Implementar
+    Implementar --> Verificar
+    Verificar --> Archivar
+    Archivar --> [*]
 ```
-
-Cada nodo representa una fase: el **Usuario** inicia el cambio, la **Especificación** lo formaliza, los **artefactos formales** guían la ejecución, el **Agente IA** lo ejecuta, y el **Output** retroalimenta el proyecto.
 
 ---
 
