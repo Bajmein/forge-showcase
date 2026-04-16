@@ -1,64 +1,97 @@
- > [!IMPORTANT]
+> [!IMPORTANT]
 > Este repositorio es una **exhibición arquitectónica** de Forge. El código fuente es privado y no está incluido aquí.
 > Para más información sobre el autor, visita [github.com/Bajmein](https://github.com/Bajmein).
 
 # Forge
 
-Pipeline de desarrollo dirigido por especificaciones (SDD) para proyectos de software personales.
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python)
+![CLI](https://img.shields.io/badge/CLI-000000?style=flat-square&logo=terminal)
+![LLMs](https://img.shields.io/badge/LLMs-FF69B4?style=flat-square&logo=openai)
+
+> [!IMPORTANT]
+> Este repositorio es una **exhibición arquitectónica** de Forge. El código fuente es privado y no está incluido aquí.
+> Para más información sobre el autor, visita [github.com/Bajmein](https://github.com/Bajmein).
+
+## Acerca del Proyecto
+
+Forge es un proyecto experimental que explora el desarrollo dirigido por especificaciones (Spec-Driven Development - SDD). El objetivo es crear un pipeline de desarrollo donde cada cambio esté respaldado por artefactos formales que guíen a los agentes de IA durante el proceso de implementación.
+
+El sistema busca estructurar la evolución de proyectos personales mediante un flujo de trabajo claro, donde cada paso - desde la idea hasta el despliegue - es verificable.
+
+---
 
 ## Spec-Driven Development (SDD)
 
 Forge implementa un ciclo de vida donde cada cambio pasa por artefactos formales antes de llegar al código.
 
 ```mermaid
-flowchart LR
-    Usuario -->|propone idea| Especificación
-    Especificación -->|diseño técnico| Motor
-    Motor -->|instrucciones| AgentIA[Agente IA]
-    AgentIA -->|implementación| Output
-    Output -->|retroalimentación| Spec[Spec acumulado]
-    Spec -->|siguiente ciclo| Especificación
+stateDiagram-v2
+    [*] --> draft : /propose
+    draft --> proposed : /approve
+    proposed --> approved : confirmación
+    approved --> implemented : /apply
+    implemented --> archived : /verify + /archive
+    archived --> [*]
 ```
 
-Cada nodo del diagrama representa una fase obligatoria: el **Usuario** inicia el cambio, la **Especificación** lo formaliza, el **Motor** lo descompone en tareas, el **Agente IA** lo ejecuta, y el **Output** retroalimenta el spec acumulado del proyecto.
+Cada nodo representa una fase: el **Usuario** inicia el cambio, la **Especificación** lo formaliza, los **artefactos formales** guían la ejecución, el **Agente IA** lo ejecuta, y el **Output** retroalimenta el proyecto.
 
-## Arquitectura de Conocimiento
+---
 
-| Sistema | Rol | Contenido |
-|---|---|---|
-| Notion | Gestión de proyectos | Roadmap, tareas, backlog |
-| Obsidian | Base de conocimiento | ADRs, decisiones, contexto |
-| Filesystem | Artefactos del pipeline | Specs, diseños, tasks, changesets |
+## Garantías Formales
 
-## Flujo de Comandos (Slash CLI)
+### Schema de Propuesta
 
-| Comando | Fase | Descripción |
-|---|---|---|
-| `/propose` | Propuesta | Redactar propuesta para una nueva idea |
-| `/specify` | Especificación | Crear spec delta a partir de propuesta aprobada |
-| `/design` | Diseño | Generar diseño técnico desde spec aprobado |
-| `/break-to-tasks` | Planificación | Descomponer diseño en lista de tareas ordenadas |
-| `/approve` | Aprobación | Marcar propuesta como aprobada |
-| `/apply` | Implementación | Ejecutar las tareas definidas en el changeset |
-| `/verify` | Verificación | Verificar que el cambio cumple spec, diseño y tasks |
-| `/archive` | Cierre | Archivar cambio completado y mergear spec al acumulado |
-| `/fast-draft` | Atajo | Propuesta + spec en una sola pasada |
-| `/fast-plan` | Atajo | Diseño + tasks en una sola pasada |
+```yaml
+type: proposal
+domain: <área del sistema>
+status: proposed | approved
+author: <model-id>
+created_at: YYYY-MM-DD
+```
 
-## Stack
+### Schema de Especificación
+
+```markdown
+#### Scenario: <nombre del escenario>
+
+**GIVEN** <precondición del sistema>
+**WHEN** <acción que se ejecuta>
+**THEN** <resultado esperado verificable>
+```
+
+### Validación
+
+Todos los artefactos se validan formalmente contra sus respectivos schemas y reglas de negocio utilizando comandos específicos antes de avanzar a la siguiente fase.
+
+---
+
+## Aislamiento por Worktree
+
+Cada cambio se desarrolla en un entorno completamente aislado. Durante el proceso, se crea un `git worktree` dedicado específicamente a ese cambio, aislando las dependencias. Una vez que el cambio es exitoso, el worktree se elimina automáticamente.
+
+---
+
+## Stack Tecnológico
 
 | Componente | Tecnología |
 |---|---|
 | Artefactos | Markdown + YAML frontmatter |
-| Desarrollo | Python 3.14+, mise, uv |
-| Validación | pytest, ruff, bandit, ty, deptry |
+| Desarrollo | Python 3.14+, mise, uv, dprint |
+| Validación | pytest, ruff, bandit, ty, deptry, vulture |
 | MCP Servers | Context7, Serena, Obsidian, GitHub |
-| Clientes IA | Claude Code (Anthropic), Gemini CLI (Google) |
+| Clientes IA | Claude Code, Gemini CLI |
+
+---
 
 ## Estado
 
-**v0.1.0** — Pipeline SDD completo y operativo. Fases `propose → archive` implementadas. Integración con Notion y expansión a más CLIs en progreso.
+**v0.1.0** — Pipeline SDD completo y operativo. Fases `propose → archive` implementadas.
+
+## Contacto
+
+[kenno13@proton.me](mailto:kenno13@proton.me)
 
 ## Licencia
 
-El código fuente de Forge es privado. Los artefactos de este repositorio (documentación, topología, configuración de referencia) se comparten con fines de exhibición arquitectónica.
+El código fuente de Forge es privado. Los artefactos de este repositorio se comparten con fines de exhibición arquitectónica.
